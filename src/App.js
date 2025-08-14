@@ -1,62 +1,97 @@
-import { View, Text, FlatList, StyleSheet, Image,ActivityIndicator, Button } from 'react-native';
-import { useQuery } from '@tanstack/react-query';//Hook para fazer queries
-import { fetchPosts} from './api/posts'
- 
- 
-export default function App() {
- 
-    const { data, isLoading, isError,error,isFetching,refetch } = useQuery({
-        queryKey: ['posts'], //Chave da query
-        queryFn: fetchPosts //Função que busca os dados
-    });
+import { View, Text, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
+import { useQuery } from '@tanstack/react-query';
+import { fetchPosts } from './api/Post';
 
-    //Exibe um carregando enquanto os dados não chegam
-    if (isLoading) {
-        return <ActivityIndicator size="large" style={styles.center} />
-    }
- 
-    //Exibe um erro caso ocorra
-    if (isError) {
-        return (
-            <View>
-                <Text style={styles.center}>Erro ao carregar os dados</Text>
-                <Text style={styles.center}>{error.message}</Text>
-            </View>
-        )
-    }
- 
+export default function App() {
+  const { data, isLoading, isError, error, isFetching, refetch } = useQuery({
+    queryKey: ['posts'],
+    queryFn: fetchPosts
+  });
+
+  if (isLoading) {
     return (
-        <>
-         
-        <FlatList
-            data={data}
-            refreshing={isFetching}//Mostra o spinner durante o refetch
-            onRefresh={refetch}//Chamada automática do refetch ao puxar
-            renderItem={({item})=>(
-                <View style={styles.item}>
-                    <Text style={styles.title}>{item.email}</Text>
-                    <Text style={styles.title}>{item.name}</Text>
-                    <Text style={styles.title}>{item.address.city}</Text>
-                </View>
-            )}
-        />
-     </>  
-    )
+      <View style={styles.center}>
+        <ActivityIndicator size="large" color="#007AFF" />
+        <Text style={styles.loadingText}>Carregando usuários...</Text>
+      </View>
+    );
+  }
+
+  if (isError) {
+    return (
+      <View style={styles.center}>
+        <Text style={styles.errorText}>Erro ao carregar usuários</Text>
+        <Text style={styles.errorMessage}>{error.message}</Text>
+      </View>
+    );
+  }
+
+  return (
+    <FlatList
+      data={data}
+      refreshing={isFetching}
+      onRefresh={refetch}
+      keyExtractor={(item) => item.id.toString()}
+      renderItem={({ item }) => (
+        <View style={styles.card}>
+          <Text style={styles.name}>{item.name}</Text>
+          <Text style={styles.email}>{item.email}</Text>
+          <Text style={styles.city}>Cidade: {item.address.city}</Text>
+        </View>
+      )}
+    />
+  );
 }
- 
+
 const styles = StyleSheet.create({
-    center:{
-        flex:1,
-        justifyContent:'center',
-        alignItems:'center'
-    },
-    item:{
-        padding:16,
-        borderBottomWidth:1,
-        borderBottomColor:'#ccc'
-    },
-    title:{
-        fontWeight:'bold',
-        marginBottom:4
-    }
-})
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F9FAFB',
+  },
+  loadingText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: '#555',
+  },
+  errorText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#D32F2F',
+    marginBottom: 4,
+  },
+  errorMessage: {
+    fontSize: 14,
+    color: '#555',
+    textAlign: 'center',
+    paddingHorizontal: 20,
+  },
+  card: {
+    backgroundColor: '#FFFFFF',
+    marginHorizontal: 16,
+    marginVertical: 8,
+    padding: 16,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  name: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#1E293B',
+    marginBottom: 4,
+  },
+  email: {
+    fontSize: 14,
+    color: '#007AFF',
+    marginBottom: 4,
+  },
+  city: {
+    fontSize: 14,
+    color: '#555',
+  },
+});
