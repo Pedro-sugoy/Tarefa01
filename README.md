@@ -1,12 +1,11 @@
-Tarefa de cp mobile 
+## TAREA CP DE MOBILE 
 
-Objetivo: utilizar tanQuary para retornar uma lista de usuarios!
+OBJETIVO: Utilizar tanQuary para retornar uma lista de usuarios!
+=====================================================================
+INTEGRANTES:
 
+*Fernando Fernandes Prado rm557982
 
-Fernando Fernandes Prado rm557982
+*Guilherme Camasmie Laiber de Jesus rm554894
 
-
-Guilherme Camasmie Laiber de Jesus rm554894
-
-
-Pedro Manzo Yokoo rm556115
+*Pedro Manzo Yokoo rm556115
