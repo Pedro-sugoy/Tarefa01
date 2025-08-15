@@ -27,7 +27,9 @@ export default function App() {
   }
 
   return (
-    <FlatList
+    <View>
+      <Text style={styles.titulo}>Lista de usuários</Text>
+      <FlatList
       data={data}
       refreshing={isFetching}
       onRefresh={refetch}
@@ -36,10 +38,12 @@ export default function App() {
         <View style={styles.card}>
           <Text style={styles.name}>{item.name}</Text>
           <Text style={styles.email}>{item.email}</Text>
-          <Text style={styles.city}>Cidade: {item.address.city}</Text>
+          <Text style={styles.city}>Cidade: <Text style={styles.cityName}>{item.address.city}</Text></Text>
         </View>
-      )}
-    />
+        )}
+      />
+    </View>
+    
   );
 }
 
@@ -71,27 +75,44 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     marginHorizontal: 16,
     marginVertical: 8,
-    padding: 16,
-    borderRadius: 10,
+    padding: 20,
+    borderRadius: 12,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 1,
+    shadowRadius: 10,
+    elevation: 5,
+    marginBottom: 16,
+    borderWidth:1
   },
   name: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#1E293B',
-    marginBottom: 4,
+    marginBottom: 6,
   },
   email: {
-    fontSize: 14,
+    fontSize: 15,
     color: '#007AFF',
-    marginBottom: 4,
+    marginBottom: 6,
   },
   city: {
-    fontSize: 14,
-    color: '#555',
+    fontSize: 16,
+    color: '#333',
   },
+  cityName: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#FF6F61', 
+    fontFamily: 'Poppins', 
+  },
+  titulo: {
+  alignSelf: 'center',
+  fontSize: 30,
+  fontWeight: 'bold', 
+  color: '#1E293B',  
+  textShadowRadius: 6,
+  marginVertical: 20
+}
+
 });
